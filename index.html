@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Illions LNGI</title>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap" rel="stylesheet">
+        <style>
+        	body {
+          		font-family: Open Sans, arial, sans-serif;
+                font-size: 60px;
+                background: black;
+                color: white;
+                text-align: center;
+            }
+        </style>
+        <script>
+            var n = {
+                mag: 0,
+                a: 0,
+            };
+            var hsc = {
+                mag: 0,
+            }
+            var t = 1;
+            var u = 1;
+            var hstr;
+            function log1000(x){
+                return Math.log10(x)/3;
+            }
+            // Layer 1
+            var onesBasic = ["m","b","tr","quadr","quint","sext","sept","oct","non"];
+            var ones = ["un","duo","tre","quattuor","quin","sex","septen","octo","novem"];
+            var tens = ["dec","vigint","trigint","quadragint","quinquagint","sexagint","septuagint","octogint","nonagint"];
+            setInterval(function(){
+                if(n.a == 0){
+                  n.mag+=t/60;
+                } else {
+                  n.mag+=Math.log10(1+(0.01/60));
+                }
+                t+=0.0001*u;
+                if(n.mag >= 300){
+                    u+=0.002;
+                }
+                if(n.mag >= 1000 && n.a == 0){
+                    n.mag = Math.log10(n.mag);
+                    n.a++;
+                }
+                if(n.mag >= 1000 || n.a > 0){
+                    hsc.mag = Math.floor(n.mag/3)-1;
+                } else {
+                    hsc.mag = -1;
+                }
+                if(hsc.mag < 0){
+                    hstr = "";
+                } else if(hsc.mag == 0){
+                    hstr = " thousand";
+                } else if(hsc.mag > 0 && hsc.mag < 10){
+                    hstr = " " + onesBasic[hsc.mag-1] + "illion";
+                }
+                if(n.a > 0){
+                    document.getElementById("num").textContent = (Math.pow(10,n.mag%3)).toFixed(2) + hstr;
+                } else if(n.a <= 0){
+                    document.getElementById("num").textContent = n.mag.toFixed(2);
+                }
+            },1000/60);
+        </script>
+	</head>
+	<body>
+	    <span id="num">0</span>
+	</body>
+</html>
