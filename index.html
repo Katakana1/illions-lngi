@@ -31,17 +31,19 @@
                 return Math.log10(x)/3;
             }
             // Layer 1
-            var onesBasic = ["m","b","tr","quadr","quint","sext","sept","oct","non"];
-            var ones = ["un","duo","tre","quattuor","quin","sex","septen","octo","novem"];
-            var tens = ["dec","vigint","trigint","quadragint","quinquagint","sexagint","septuagint","octogint","nonagint"];
+            var onesBasic = ["","m","b","tr","quadr","quint","sext","sept","oct","non"];
+            var ones = ["","un","duo","tre","quattuor","quin","sex","septen","octo","novem"];
+            var tens = ["","dec","vigint","trigint","quadragint","quinquagint","sexagint","septuagint","octogint","nonagint"];
+            var onHundreds = ["","cent","ducent","trescent","quadracent","quincent","sexcent","septemcent","octocent","novemcent"];
+            var hundreds = ["","centi","ducenti","trescenti","quadracenti","quincenti","sexcenti","septemcenti","octocenti","novemcenti"];
             setInterval(function(){
                 if(n.a == 0 && n.mag < 1000){
                     n.mag+=t/60;
                 } else if(n.a == 0) {
                     n.mag*=Math.pow(1.01,1/60);
                 } else {
-                    n.mag*=1+(1/(1/Math.pow((d*10)/(6000/m),f/(36000/m))*(d*10)));
-                    if(f <= 36000/m){
+                    n.mag*=1+(1/(1/Math.pow((d*10)/(6000/m),f/(108000/m))*(d*10)));
+                    if(f <= 108000/m){
                         f++;
                     }
                 }
@@ -76,8 +78,14 @@
                     hstr = "";
                 } else if(hsc.mag == 0){
                     hstr = " thousand";
-                } else if(hsc.mag > 0 && hsc.mag < 10){
-                    hstr = " " + onesBasic[hsc.mag-1] + "illion";
+                } else if(hsc.mag < 10){
+                    hstr = " " + onesBasic[hsc.mag] + "illion";
+                } else if(hsc.mag < 100){
+                    hstr = " " + ones[(hsc.mag)%10] + tens[Math.floor(hsc.mag/10)] + "illion"; 
+                } else if(hsc.mag%100 == 0 && hsc.mag < 1000){
+                    hstr = " " + onHundreds[hsc.mag/100] + "illion";
+                } else if(hsc.mag < 1000){
+                    hstr = " " + hundreds[Math.floor(hsc.mag/100)] + ones[(hsc.mag)%10] + tens[Math.floor(hsc.mag/10)%10] + "illion";
                 }
                 
                 
